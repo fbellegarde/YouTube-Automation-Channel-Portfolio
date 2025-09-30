@@ -210,9 +210,11 @@ def create_dynamic_slideshow(image_paths: List[str], duration: float, size: tupl
 
 # --- HELPER FUNCTIONS ---
 def create_file_safe_name(title: str) -> str:
-    """Creates a standardized file name from a title."""
-    safe_title = title.replace("'", "").replace(" ", "_")
-    return re.sub(r'[^\w-]', '', safe_title)
+    """Creates a standardized file name, preserving apostrophes and exclamation marks."""
+    safe_title = title.replace(" ", "_")
+    # Remove only special characters except apostrophes and exclamation marks
+    safe_title = re.sub(r'[^\w\'!_-]', '', safe_title)
+    return safe_title
 
 def parse_db_field(data: str) -> list:
     """Safely parses a JSON list string from the database."""
