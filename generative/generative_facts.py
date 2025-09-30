@@ -1,67 +1,67 @@
-import os
+import logging
 import markovify
 from sqlalchemy import create_engine
 import pandas as pd
-import logging
+import os
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(os.path.join('generative', 'generative_facts.log')),
+        logging.FileHandler('generative/generative_facts.log'),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-# Load data
-try:
-    engine = create_engine('sqlite:///db/local.db')
-    df = pd.read_sql('shows', engine)
-    if df.empty:
-        logger.error("No data found in shows table")
-        raise ValueError("Empty shows table")
-except Exception as e:
-    logger.error(f"Database error: {e}")
-    raise
+def generate_facts():
+    try:
+        engine = create_engine('sqlite:///db/local.db')
+        # Try 'tv_shows' first, fall back to 'shows'
+        table_name = 'tv_shows'
+        try:
+            df = pd.read_sql(f'SELECT title, summary, cast FROM {table_name}', engine)
+        except Exception as e:
+            logger.warning(f"Table 'tv_shows' not found: {e}, trying 'shows'")
+            table_name = 'shows'
+            df = pd.read_sql(f'SELECT title, summary, cast FROM {table_name}', engine)
+        logger.info(f"Found {len(df)} shows in database")
+        # Combine summary and cast for richer text
+        text_corpus = []
+        for _, row in df.iterrows():
+            summary = row['summary'] if row['summary'] and row['summary'] != 'N/A' else f"{row['title']} is a beloved show."
+            cast = row['cast'] if row['cast'] and row['cast'] != 'N/A' else 'talented actors'
+            text_corpus.append(f"{summary} Featuring {cast}.")
+        if not text_corpus:
+            logger.warning("No valid data for Markov model")
+            return ["This show is a classic!"]
+        # Build Markov model
+        text_model = markovify.Text(" ".join(text_corpus), state_size=2)
+        logger.info("Built Markov model")
+        # Generate facts
+        facts = []
+        for _ in range(5):
+            fact = text_model.make_short_sentence(140, tries=100)
+            if fact:
+                facts.append(fact)
+        if not facts:
+            logger.warning("No facts generated")
+            facts = ["This show is a classic!"]
+        logger.info("Generated fun facts:")
+        for fact in facts:
+            logger.info(f"Sample fact: {fact}")
+        return facts
+    except Exception as e:
+        logger.error(f"Fact generation error: {e}")
+        return ["This show is a classic!"]
 
-# Generate Markov model
-try:
-    text = ' '.join(df['summary'])
-    if not text.strip():
-        logger.error("No valid summary text for Markov model")
-        raise ValueError("Empty summary text")
-    model = markovify.Text(text, state_size=2)
-    logger.info("Built Markov model")
-except Exception as e:
-    logger.error(f"Markov model error: {e}")
-    raise
-
-# Generate facts
-generated = []
-try:
-    for _ in range(5):
-        fact = model.make_sentence(tries=200)  # Was tries=100
-        if fact:
-            generated.append(fact)
-    if not generated:
-        logger.warning("No facts generated")
-        generated = ["Sample fact: This show is a classic!"]
-    logger.info("Generated fun facts:")
-    for fact in generated:
-        logger.info(fact)
-except Exception as e:
-    logger.error(f"Fact generation error: {e}")
-    raise
-
-# Save facts
-try:
+def main():
+    facts = generate_facts()
     os.makedirs('generative', exist_ok=True)
-    output_file = os.path.join('generative', 'generated_facts.txt')
-    with open(output_file, 'w') as f:
-        f.write('\n'.join(generated))
-    logger.info(f"Saved facts to {output_file}")
-except Exception as e:
-    logger.error(f"Save error: {e}")
-    raise
+    with open('generative/generated_facts.txt', 'w') as f:
+        f.write("\n".join(facts))
+    logger.info("Saved facts to generative/generated_facts.txt")
+
+if __name__ == '__main__':
+    main()

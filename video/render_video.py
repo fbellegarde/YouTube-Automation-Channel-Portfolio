@@ -78,6 +78,10 @@ def create_video(row):
     video_clip = None
     final_clip = None
     try:
+        # Skip if video already exists
+        if os.path.exists(video_file):
+            logger.info(f"Video already exists for {row['title']}: {video_file}")
+            return
         # Try JSON for Poster URL
         json_file = f"output/{title}.json"
         poster_url = None
@@ -90,6 +94,9 @@ def create_video(row):
             logger.error(f"No image for {row['title']}")
             return
         narration_text = row.get('summary', 'No summary available')
+        if not narration_text or len(narration_text.strip()) < 10:
+            logger.warning(f"Summary too short for {row['title']}, using default")
+            narration_text = f"{row['title']} is a beloved animated series!"
         tts = gTTS(text=narration_text, lang='en')
         tts.save(narration_file)
         logger.info(f"Generated narration to {narration_file}")
@@ -98,7 +105,7 @@ def create_video(row):
         video_clip = image_clip.set_audio(audio_clip)
         txt_clip = TextClip(f"{row['title']}", fontsize=70, color='white', bg_color='black').set_position('center').set_duration(10)
         final_clip = CompositeVideoClip([video_clip, txt_clip])
-        final_clip.write_videofile(video_file, fps=24, codec='mpeg4')
+        final_clip.write_videofile(video_file, fps=24, codec='mpeg4', audio_codec='mp3')
         logger.info(f"Created video: {video_file}")
     except Exception as e:
         logger.error(f"Video creation error for {row['title']}: {e}")
@@ -120,7 +127,9 @@ def main():
     engine = create_engine('sqlite:///db/local.db')
     import pandas as pd
     df = pd.read_sql('SELECT * FROM shows', engine)
+    logger.info(f"Found {len(df)} shows in database")
     for index, row in df.iterrows():
+        logger.info(f"Processing video for {row['title']}")
         create_video(row)
 
 if __name__ == '__main__':
