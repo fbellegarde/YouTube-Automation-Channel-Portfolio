@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Automation Dashboard</title>
+    <style>
+        body { background-color: #F0F8FF; font-family: Arial; color: #007BFF; }  <!-- Blue theme -->
+        .sidebar { width: 200px; float: left; background: #00BFFF; padding: 10px; }  <!-- Teal sidebar -->
+        .content { margin-left: 220px; }
+        button { background: #007BFF; color: white; padding: 10px; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Navigation</h3>
+        <a href="/"><button>Home</button></a>
+        <a href="/recommend"><button>Recommend Topics</button></a>
+        <a href="/generate"><button>Generate Content</button></a>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

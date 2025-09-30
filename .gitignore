@@ -2,3 +2,12 @@ venv/
 __pycache__/
 *.pyc
 .env
+config.py
+.env
+*.log
+db/*
+data/*.json
+data/*.csv
+videos/*
+credentials/*
+*.pickle

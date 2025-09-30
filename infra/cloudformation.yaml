@@ -1,0 +1,9 @@
+Resources:
+  ECRRepo:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: youtube-automation-repo
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: youtube-cluster
