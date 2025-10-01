@@ -1,0 +1,65 @@
+[
+  {
+    "video_file": "videos\\Dexter's_Laboratory.mp4",
+    "show_data": {
+      "title": "Dexter's Laboratory",
+      "summary": "The misadventures of a boy genius and his annoying sister.",
+      "actors": "[\"Kath Soucie\", \"Jeff Bennett\", \"Christine Cavanaugh\"]",
+      "genres": "[\"Animation\", \"Adventure\", \"Comedy\"]"
+    }
+  },
+  {
+    "video_file": "videos\\Hannah_Montana.mp4",
+    "show_data": {
+      "title": "Hannah Montana",
+      "summary": "Adventures of a teenage pop star who keeps her identity secret from even her closest friends by using a disguise on-stage.",
+      "actors": "[\"Miley Cyrus\", \"Emily Osment\", \"Jason Earles\"]",
+      "genres": "[\"Comedy\", \"Family\", \"Music\"]"
+    }
+  },
+  {
+    "video_file": "videos\\Hey_Arnold!.mp4",
+    "show_data": {
+      "title": "Hey Arnold!",
+      "summary": "The everyday life of Arnold, a fourth-grader in the city of Hillwood, Washington, who lives in a multi-racial boarding house with his grandparents and a motley assortment of friends and neighbors.",
+      "actors": "[\"Francesca Marie Smith\", \"Jamil Walker Smith\", \"Dan Castellaneta\"]",
+      "genres": "[\"Animation\", \"Comedy\", \"Family\"]"
+    }
+  },
+  {
+    "video_file": "videos\\Rugrats.mp4",
+    "show_data": {
+      "title": "Rugrats",
+      "summary": "Tommy, Chuckie, Angelica, Phil and Lil and Susie find themselves in a slew of adventures - both real and imaginary. Baldly go where no baby's every gone before as the Rugrats turn the ordinary into the extraordinary every day.",
+      "actors": "[\"Elizabeth Daily\", \"Christine Cavanaugh\", \"Nancy Cartwright\"]",
+      "genres": "[\"Animation\", \"Adventure\", \"Comedy\"]"
+    }
+  },
+  {
+    "video_file": "videos\\SpongeBob_SquarePants.mp4",
+    "show_data": {
+      "title": "SpongeBob SquarePants",
+      "summary": "The misadventures of a talking sea sponge who works at a fast food restaurant, attends a boating school, and lives in an underwater pineapple.",
+      "actors": "[\"Tom Kenny\", \"Rodger Bumpass\", \"Bill Fagerbakke\"]",
+      "genres": "[\"Animation\", \"Comedy\", \"Family\"]"
+    }
+  },
+  {
+    "video_file": "videos\\The_Fairly_OddParents.mp4",
+    "show_data": {
+      "title": "The Fairly OddParents",
+      "summary": "After being tortured and humiliated by his babysitter, a ten year old boy is put under the care of two fairy godparents, who can grant him almost any wish, which leads to dire consequences.",
+      "actors": "[\"Tara Strong\", \"Susanne Blakeslee\", \"Daran Norris\"]",
+      "genres": "[\"Animation\", \"Adventure\", \"Comedy\"]"
+    }
+  },
+  {
+    "video_file": "videos\\The_Powerpuff_Girls.mp4",
+    "show_data": {
+      "title": "The Powerpuff Girls",
+      "summary": "Three super-powered little girls constantly save the world (or at least the city of Townsville) from monsters, would-be conquerers and a few other gross things.",
+      "actors": "[\"Cathy Cavadini\", \"Elizabeth Daily\", \"Tara Strong\"]",
+      "genres": "[\"Animation\", \"Action\", \"Adventure\"]"
+    }
+  }
+]
